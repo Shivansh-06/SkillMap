@@ -1,0 +1,11 @@
+{
+  "Data Analyst": {
+    "skills": {
+      "Python": 0.25,
+      "Statistics": 0.30,
+      "SQL": 0.25,
+      "Excel": 0.10,
+      "Visualization": 0.10
+    }
+  }
+}
