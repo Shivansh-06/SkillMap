@@ -2,6 +2,7 @@
   {
     "id": 1,
     "skill": "Statistics",
+    "difficulty": "basic",
     "question": "What does standard deviation measure?",
     "options": ["Mean", "Spread", "Median", "Mode"],
     "answer": "Spread"
@@ -9,14 +10,16 @@
   {
     "id": 2,
     "skill": "Python",
-    "question": "Which library is used for data manipulation?",
+    "difficulty": "basic",
+    "question": "Which Python library is commonly used for data manipulation?",
     "options": ["NumPy", "Flask", "Django", "TensorFlow"],
     "answer": "NumPy"
   },
   {
     "id": 3,
     "skill": "SQL",
-    "question": "Which SQL clause combines rows from tables?",
+    "difficulty": "basic",
+    "question": "Which SQL clause is used to combine rows from two tables?",
     "options": ["WHERE", "JOIN", "ORDER BY", "LIMIT"],
     "answer": "JOIN"
   }
