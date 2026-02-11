@@ -240,6 +240,10 @@ Personalization is not about recommending more.
 
 It’s about modeling structure correctly.
 
+
+Live Demo: https://night-shift-amuhacks-5-0.vercel.app
+
+
 SkillMap focuses on:
 
 Diagnosis before prescription.
