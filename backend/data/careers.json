@@ -1,11 +1,28 @@
 {
   "Data Analyst": {
-    "skills": {
-      "Python": 0.25,
-      "Statistics": 0.30,
-      "SQL": 0.25,
-      "Excel": 0.10,
-      "Visualization": 0.10
-    }
+    "required_skills": [
+      "Statistics",
+      "SQL",
+      "Excel",
+      "Data Visualization",
+      "Python for Data"
+    ]
+  },
+  "Data Scientist": {
+    "required_skills": [
+      "Statistics",
+      "Linear Algebra",
+      "Python for Data",
+      "Machine Learning",
+      "Model Evaluation"
+    ]
+  },
+  "ML Engineer": {
+    "required_skills": [
+      "Python for Data",
+      "Machine Learning",
+      "Model Deployment",
+      "System Design"
+    ]
   }
 }
