@@ -1,22 +1,60 @@
 {
-  "Python": {
-    "description": "Used for data manipulation, analysis, and automation in analytics roles.",
-    "topics": ["syntax", "pandas", "numpy"]
+  "Probability": {
+    "domain": "Mathematics",
+    "prerequisites": []
   },
   "Statistics": {
-    "description": "Core foundation for interpreting data, measuring uncertainty, and making data-driven decisions.",
-    "topics": ["mean", "variance", "probability"]
+    "domain": "Mathematics",
+    "prerequisites": ["Probability"]
+  },
+  "Linear Algebra": {
+    "domain": "Mathematics",
+    "prerequisites": []
+  },
+  "Python Basics": {
+    "domain": "Programming",
+    "prerequisites": []
+  },
+  "Python for Data": {
+    "domain": "Programming",
+    "prerequisites": ["Python Basics"]
   },
   "SQL": {
-    "description": "Essential for querying, joining, and aggregating data from relational databases.",
-    "topics": ["select", "joins", "group by"]
+    "domain": "Data Handling",
+    "prerequisites": []
   },
   "Excel": {
-    "description": "Widely used for quick analysis, reporting, and business workflows.",
-    "topics": ["pivot tables", "vlookup"]
+    "domain": "Data Handling",
+    "prerequisites": []
   },
-  "Visualization": {
-    "description": "Used to communicate insights clearly using charts and dashboards.",
-    "topics": ["charts", "dashboards"]
+  "Data Visualization": {
+    "domain": "Data Handling",
+    "prerequisites": []
+  },
+  "Machine Learning": {
+    "domain": "Machine Learning",
+    "prerequisites": [
+      "Statistics",
+      "Linear Algebra",
+      "Python for Data"
+    ]
+  },
+  "Model Evaluation": {
+    "domain": "Machine Learning",
+    "prerequisites": [
+      "Machine Learning",
+      "Statistics"
+    ]
+  },
+  "Model Deployment": {
+    "domain": "Systems",
+    "prerequisites": [
+      "Machine Learning",
+      "Python for Data"
+    ]
+  },
+  "System Design": {
+    "domain": "Systems",
+    "prerequisites": ["Python Basics"]
   }
 }
