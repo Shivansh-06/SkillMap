@@ -5,8 +5,18 @@ from pathlib import Path
 from logic.evaluator import calculate_score, get_skill_level
 from logic.roadmap import generate_roadmap
 from models.schemas import AssessmentRequest, AssessmentResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(title="SkillMap", version="0.1.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -35,12 +45,17 @@ def get_questions(career: str):
     }
 
 
-
 @app.post("/assess", response_model=AssessmentResponse)
 def assess(request: AssessmentRequest):
 
-    if request.career not in CAREERS:
+    # Load careers dynamically
+    with open("data/careers.json") as f:
+        careers = json.load(f)
+
+    if request.career not in careers:
         raise HTTPException(status_code=400, detail="Invalid career selected")
+
+    required_skills = careers[request.career]["required_skills"]
 
     # Initialize counters
     skill_correct = {}
@@ -63,16 +78,35 @@ def assess(request: AssessmentRequest):
     # Build Skill DNA
     skill_dna = {}
     alignment_score = 0
+    max_score = 0
 
     for skill, total in skill_total.items():
+        if total == 0:
+            continue
+
         score = calculate_score(skill_correct[skill], total)
         level = get_skill_level(score)
         skill_dna[skill] = level
 
-        weight = CAREERS[request.career]["skills"].get(skill, 0)
-        alignment_score += int(score * weight)
+        # Only compute alignment on required skills
+        if skill in required_skills:
+            alignment_score += score
+            max_score += 100  # each skill max is 100
 
-    roadmap, avoid = generate_roadmap(skill_dna)
+    # Normalize alignment score to percentage
+    if max_score > 0:
+        alignment_score = int((alignment_score / max_score) * 100)
+    else:
+        alignment_score = 0
+
+    # Generate dependency-aware roadmap
+    roadmap = generate_roadmap(skill_dna, request.career)
+
+    # Strong skills to avoid for now
+    avoid = [
+        skill for skill in required_skills
+        if skill_dna.get(skill) == "Strong"
+    ]
 
     return {
         "skill_dna": skill_dna,
