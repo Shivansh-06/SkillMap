@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchQuestions } from "../api/backend";
+import StepProgress from "../components/StepProgress";
+
 
 export default function Assessment() {
   const location = useLocation();
@@ -12,6 +14,8 @@ export default function Assessment() {
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
 
   // Fetch questions on load
   useEffect(() => {
@@ -38,6 +42,8 @@ export default function Assessment() {
 
 
   const handleSubmit = async () => {
+  setSubmitting(true);
+
     const payload = {
       career,
       answers: Object.entries(answers).map(([qid, selected]) => ({
@@ -46,17 +52,28 @@ export default function Assessment() {
       })),
     };
 
-    const response = await fetch("http://127.0.0.1:8000/assess", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const response = await fetch("http://127.0.0.1:8000/assess", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const result = await response.json();
-    navigate("/result", { state: result });
+      const result = await response.json();
+
+      // Small delay for smoother UX
+      setTimeout(() => {
+        navigate("/result", { state: result });
+      }, 600);
+
+    } catch (error) {
+      console.error(error);
+      setSubmitting(false);
+    }
   };
+
 
   // Guard states
   if (!career) return <p>No career selected.</p>;
@@ -65,6 +82,7 @@ export default function Assessment() {
 
   return (
   <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center py-10 px-4">
+      <StepProgress currentStep={2} />
 
     <h2 className="text-3xl font-bold mb-8">
       {career} Skill Assessment
@@ -107,19 +125,35 @@ export default function Assessment() {
       ))}
 
       <button
-          onClick={handleSubmit}
-          disabled={!allAnswered}
-          className={`w-full py-3 rounded-xl font-semibold text-lg transition ${
-            allAnswered
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-gray-600 cursor-not-allowed"
-          }`}
+        onClick={handleSubmit}
+        disabled={submitting}
+        className={`w-full py-3 rounded-xl font-semibold text-lg transition ${
+          submitting
+            ? "bg-gray-600 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700"
+        }`}
       >
-        Submit Assessment
+        {submitting ? "Analyzing..." : "Submit Assessment"}
       </button>
 
 
+
     </div>
+    {submitting && (
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-white text-lg">
+            Generating your Skill DNA...
+          </p>
+        </div>
+      </div>
+    )}
+
+
+
   </div>
+  
+
 );
 }

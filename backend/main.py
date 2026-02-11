@@ -27,6 +27,20 @@ with open(BASE_DIR / "data" / "questions.json", "r") as f:
 with open(BASE_DIR / "data" / "careers.json", "r") as f:
     CAREERS = json.load(f)
 
+with open(BASE_DIR / "data" / "skills.json") as f:
+    skills_data = json.load(f)
+
+def count_career_dependents(target, required_skills):
+    count = 0
+    for skill in required_skills:
+        prerequisites = skills_data.get(skill, {}).get("prerequisites", [])
+        if target in prerequisites:
+            count += 1
+    return count
+
+
+
+
 
 @app.get("/")
 def root():
@@ -37,25 +51,27 @@ def get_questions(career: str):
     if career not in CAREERS:
         raise HTTPException(status_code=400, detail="Invalid career selected")
 
-    # For MVP, return all questions
-    # Later: filter by career / difficulty
+    required_skills = CAREERS[career]["required_skills"]
+
+    filtered_questions = [
+        q for q in QUESTIONS
+        if q["skill"] in required_skills
+    ]
+
     return {
         "career": career,
-        "questions": QUESTIONS
+        "questions": filtered_questions
     }
+
 
 
 @app.post("/assess", response_model=AssessmentResponse)
 def assess(request: AssessmentRequest):
 
-    # Load careers dynamically
-    with open("data/careers.json") as f:
-        careers = json.load(f)
-
-    if request.career not in careers:
+    if request.career not in CAREERS:
         raise HTTPException(status_code=400, detail="Invalid career selected")
 
-    required_skills = careers[request.career]["required_skills"]
+    required_skills = CAREERS[request.career]["required_skills"]
 
     # Initialize counters
     skill_correct = {}
@@ -88,21 +104,47 @@ def assess(request: AssessmentRequest):
         level = get_skill_level(score)
         skill_dna[skill] = level
 
-        # Only compute alignment on required skills
         if skill in required_skills:
             alignment_score += score
-            max_score += 100  # each skill max is 100
+            max_score += 100
 
-    # Normalize alignment score to percentage
+    # Normalize alignment
     if max_score > 0:
         alignment_score = int((alignment_score / max_score) * 100)
     else:
         alignment_score = 0
 
-    # Generate dependency-aware roadmap
+    # ----------- INSIGHT METRICS -----------
+
+    missing_skills = []
+    weak_skills = []
+    strong_skills = []
+
+    for skill in required_skills:
+        level = skill_dna.get(skill)
+        if level == "Missing":
+            missing_skills.append(skill)
+        elif level == "Weak":
+            weak_skills.append(skill)
+        elif level == "Strong":
+            strong_skills.append(skill)
+
+    # Primary bottleneck
+    primary_gap = None
+    if missing_skills:
+        primary_gap = missing_skills[0]
+    elif weak_skills:
+        primary_gap = weak_skills[0]
+
+    # High-impact gap (has dependents)
+    high_impact_gap = None
+    if primary_gap and count_career_dependents(primary_gap, required_skills) > 0:
+        high_impact_gap = primary_gap
+
+    # ----------- ROADMAP -----------
+
     roadmap = generate_roadmap(skill_dna, request.career)
 
-    # Strong skills to avoid for now
     avoid = [
         skill for skill in required_skills
         if skill_dna.get(skill) == "Strong"
@@ -112,5 +154,12 @@ def assess(request: AssessmentRequest):
         "skill_dna": skill_dna,
         "career_alignment": alignment_score,
         "roadmap": roadmap,
-        "avoid_for_now": avoid
+        "avoid_for_now": avoid,
+        "insights": {
+            "primary_gap": primary_gap,
+            "missing_count": len(missing_skills),
+            "weak_count": len(weak_skills),
+            "strong_count": len(strong_skills),
+            "high_impact_gap": high_impact_gap
+        }
     }

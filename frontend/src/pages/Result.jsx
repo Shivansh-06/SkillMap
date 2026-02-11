@@ -31,6 +31,8 @@ ChartJS.register(
 export default function Result() {
     const { state } = useLocation();
     const [displayScore, setDisplayScore] = useState(0);
+    const insights = state.insights;
+
 
     useEffect(() => {
       if (!state) return;
@@ -95,6 +97,33 @@ export default function Result() {
 return (
   <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center py-10 px-4">
     <StepProgress currentStep={3} />
+    <div className="bg-white shadow-lg rounded-2xl p-6 mb-6">
+      <h3 className="text-xl font-semibold mb-3">Diagnostic Summary</h3>
+
+      {insights.primary_gap ? (
+        <p className="mb-2">
+          🔎 Your biggest bottleneck is <strong>{insights.primary_gap}</strong>.
+        </p>
+      ) : (
+        <p className="mb-2">
+          🎯 You are strongly aligned with this career path.
+        </p>
+      )}
+
+      {insights.high_impact_gap && (
+        <p className="text-red-500 mb-2">
+          ⚠ Fixing {insights.high_impact_gap} unlocks multiple downstream skills.
+        </p>
+      )}
+
+      <div className="flex gap-4 mt-3 text-sm">
+        <span>Missing: {insights.missing_count}</span>
+        <span>Weak: {insights.weak_count}</span>
+        <span>Strong: {insights.strong_count}</span>
+      </div>
+    </div>
+
+
 
 
     <h2 className="text-4xl font-bold mb-8">Skill DNA</h2>

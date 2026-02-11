@@ -1,26 +1,182 @@
 [
   {
     "id": 1,
-    "skill": "Statistics",
-    "difficulty": "basic",
-    "question": "What does standard deviation measure?",
-    "options": ["Mean", "Spread", "Median", "Mode"],
-    "answer": "Spread"
+    "skill": "Probability",
+    "question": "What does probability measure?",
+    "options": ["Certainty", "Likelihood of an event", "Speed", "Mean value"],
+    "answer": "Likelihood of an event"
   },
   {
     "id": 2,
-    "skill": "Python",
-    "difficulty": "basic",
-    "question": "Which Python library is commonly used for data manipulation?",
-    "options": ["NumPy", "Flask", "Django", "TensorFlow"],
-    "answer": "NumPy"
+    "skill": "Probability",
+    "question": "What is the probability of a certain event?",
+    "options": ["0", "0.5", "1", "Undefined"],
+    "answer": "1"
   },
+
   {
     "id": 3,
+    "skill": "Statistics",
+    "question": "What does mean represent?",
+    "options": ["Maximum", "Minimum", "Average", "Median"],
+    "answer": "Average"
+  },
+  {
+    "id": 4,
+    "skill": "Statistics",
+    "question": "Standard deviation measures:",
+    "options": ["Central tendency", "Spread of data", "Probability", "Correlation"],
+    "answer": "Spread of data"
+  },
+
+  {
+    "id": 5,
+    "skill": "Linear Algebra",
+    "question": "A matrix is:",
+    "options": ["A scalar", "A vector", "A 2D array of numbers", "A function"],
+    "answer": "A 2D array of numbers"
+  },
+  {
+    "id": 6,
+    "skill": "Linear Algebra",
+    "question": "Eigenvalues are associated with:",
+    "options": ["Matrices", "Scalars", "Lists", "Strings"],
+    "answer": "Matrices"
+  },
+
+  {
+    "id": 7,
+    "skill": "Python Basics",
+    "question": "Which data type stores multiple items?",
+    "options": ["int", "float", "list", "bool"],
+    "answer": "list"
+  },
+  {
+    "id": 8,
+    "skill": "Python Basics",
+    "question": "What does len() function do?",
+    "options": ["Counts elements", "Sorts list", "Adds values", "Deletes item"],
+    "answer": "Counts elements"
+  },
+
+  {
+    "id": 9,
+    "skill": "Python for Data",
+    "question": "Which library is used for data analysis in Python?",
+    "options": ["NumPy", "Pandas", "Flask", "Django"],
+    "answer": "Pandas"
+  },
+  {
+    "id": 10,
+    "skill": "Python for Data",
+    "question": "DataFrames are provided by:",
+    "options": ["Matplotlib", "Pandas", "TensorFlow", "Seaborn"],
+    "answer": "Pandas"
+  },
+
+  {
+    "id": 11,
     "skill": "SQL",
-    "difficulty": "basic",
-    "question": "Which SQL clause is used to combine rows from two tables?",
-    "options": ["WHERE", "JOIN", "ORDER BY", "LIMIT"],
-    "answer": "JOIN"
+    "question": "Which SQL statement retrieves data?",
+    "options": ["INSERT", "SELECT", "DELETE", "UPDATE"],
+    "answer": "SELECT"
+  },
+  {
+    "id": 12,
+    "skill": "SQL",
+    "question": "Which clause filters records?",
+    "options": ["ORDER BY", "WHERE", "GROUP BY", "LIMIT"],
+    "answer": "WHERE"
+  },
+
+  {
+    "id": 13,
+    "skill": "Excel",
+    "question": "Which Excel function calculates sum?",
+    "options": ["COUNT()", "SUM()", "AVG()", "MAX()"],
+    "answer": "SUM()"
+  },
+  {
+    "id": 14,
+    "skill": "Excel",
+    "question": "Pivot tables are used for:",
+    "options": ["Formatting", "Data summarization", "Sorting only", "Deleting rows"],
+    "answer": "Data summarization"
+  },
+
+  {
+    "id": 15,
+    "skill": "Data Visualization",
+    "question": "Which chart shows distribution?",
+    "options": ["Histogram", "Line chart", "Pie chart", "Table"],
+    "answer": "Histogram"
+  },
+  {
+    "id": 16,
+    "skill": "Data Visualization",
+    "question": "Bar charts compare:",
+    "options": ["Categories", "Time series only", "Correlations", "Probabilities"],
+    "answer": "Categories"
+  },
+
+  {
+    "id": 17,
+    "skill": "Machine Learning",
+    "question": "Supervised learning uses:",
+    "options": ["Labeled data", "Unlabeled data", "Random guessing", "Only images"],
+    "answer": "Labeled data"
+  },
+  {
+    "id": 18,
+    "skill": "Machine Learning",
+    "question": "Overfitting means:",
+    "options": ["Undertraining", "Model fits noise", "Perfect generalization", "Low variance"],
+    "answer": "Model fits noise"
+  },
+
+  {
+    "id": 19,
+    "skill": "Model Evaluation",
+    "question": "Accuracy measures:",
+    "options": ["Model speed", "Correct predictions", "Training size", "Memory usage"],
+    "answer": "Correct predictions"
+  },
+  {
+    "id": 20,
+    "skill": "Model Evaluation",
+    "question": "Precision relates to:",
+    "options": ["True positives", "All negatives", "Random guesses", "Loss function"],
+    "answer": "True positives"
+  },
+
+  {
+    "id": 21,
+    "skill": "Model Deployment",
+    "question": "Deployment means:",
+    "options": ["Training model", "Testing data", "Putting model into production", "Deleting model"],
+    "answer": "Putting model into production"
+  },
+  {
+    "id": 22,
+    "skill": "Model Deployment",
+    "question": "APIs are used for:",
+    "options": ["Data storage", "Model serving", "Sorting arrays", "Visualization only"],
+    "answer": "Model serving"
+  },
+
+  {
+    "id": 23,
+    "skill": "System Design",
+    "question": "Scalability refers to:",
+    "options": ["Code readability", "Handling growth", "Low memory", "Syntax rules"],
+    "answer": "Handling growth"
+  },
+  {
+    "id": 24,
+    "skill": "System Design",
+    "question": "Load balancing helps:",
+    "options": ["Single server only", "Distribute traffic", "Delete data", "Compress files"],
+    "answer": "Distribute traffic"
   }
 ]
+
