@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { fetchQuestions } from "../api/backend";
+import { fetchQuestions,submitAssessment} from "../api/backend";
 import StepProgress from "../components/StepProgress";
-import { submitAssessment } from "../api";
+
 
 
 export default function Assessment() {
