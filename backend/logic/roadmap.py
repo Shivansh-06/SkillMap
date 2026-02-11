@@ -5,6 +5,7 @@ from logic.dependency_resolver import resolve_roadmap
 def generate_roadmap(skill_levels, career):
     """
     Generates dependency-aware roadmap for a given career.
+    Only returns skills that are Missing or Weak.
     """
 
     # Load skills
@@ -17,10 +18,17 @@ def generate_roadmap(skill_levels, career):
 
     required_skills = careers[career]["required_skills"]
 
-    roadmap = resolve_roadmap(
+    # Get dependency-ordered roadmap
+    ordered_skills = resolve_roadmap(
         skills_data,
         required_skills,
         skill_levels
     )
+
+    # STRICT FILTERING (Option A)
+    roadmap = [
+        skill for skill in ordered_skills
+        if skill_levels.get(skill) in ["Missing", "Weak"]
+    ]
 
     return roadmap
