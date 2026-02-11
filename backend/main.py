@@ -12,7 +12,7 @@ app = FastAPI(title="SkillMap", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["night-shift-amuhacks-5-0.vercel.app", "http://localhost:3000"],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -163,3 +163,7 @@ def assess(request: AssessmentRequest):
             "high_impact_gap": high_impact_gap
         }
     }
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
