@@ -12,11 +12,15 @@ app = FastAPI(title="SkillMap", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://night-shift-amuhacks-5-0.vercel.app",
+        "http://localhost:5173",
+    ],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 BASE_DIR = Path(__file__).resolve().parent
