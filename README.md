@@ -1,208 +1,211 @@
 🚀 SkillMap
-Personalized Skill Gap Self-Diagnosis Tool
+Structured Skill Gap Diagnosis & Career-Aligned Learning Roadmaps
 
-“Diagnosis before recommendation.”
+AMUHACKS 5.0 Hackathon Project
 
-🧠 Problem Statement
+🔗 Live Demo: https://night-shift-amuhacks-5-0.vercel.app
 
-Students often follow trending skills (AI, ML, Web3) without:
+💡 “Diagnosis before recommendation.”
 
--Knowing their current competency
+📌 Overview
 
--Understanding prerequisite gaps
+SkillMap is a career-specific skill gap diagnosis system that models learning as a structured dependency graph.
 
--Aligning learning with career goals
+Unlike traditional platforms that immediately recommend courses, SkillMap first evaluates a user’s competency, identifies foundational gaps, and then generates a logically ordered roadmap based on prerequisite relationships.
 
--Most platforms recommend courses.
+The core philosophy:
 
--Very few diagnose skill gaps before prescribing learning paths.
+Personalization begins with structured diagnosis — not blind recommendation.
 
-We wanted to solve the root problem:
-lack of structured self-diagnosis before skill acquisition.
+🧠 Problem
 
-💡 Our Approach
+Students often pursue trending skills (AI, ML, Web3, etc.) without:
 
-Instead of building another recommender system, we built a:
+Understanding their current competency level
 
--Career-specific diagnostic engine
+Identifying missing prerequisites
 
-SkillMap:
+Aligning learning with career goals
 
--Evaluates skill competency
+Seeing structural weaknesses across domains
 
--Identifies missing & weak foundations
+Most platforms recommend content.
 
--Models prerequisite dependencies
+Very few diagnose skill gaps before prescribing learning paths.
 
--Generates structured learning order
+SkillMap addresses this structural gap.
 
--Highlights high-impact bottlenecks
-
--Provides domain-level coverage
-
--We prioritized structure over volume of features.
-
-🏗 System Design Thinking
+🏗 System Architecture & Design
 1️⃣ Skills Modeled as a Directed Acyclic Graph (DAG)
 
 Each skill contains:
 
--Domain
+Domain classification
 
--Prerequisites
+Prerequisite dependencies
 
--Career relevance
+Career relevance mapping
 
 Example:
 
 Linear Algebra → Machine Learning
 Statistics → Model Evaluation
 
+By modeling skills as a DAG, learning order is computed dynamically rather than manually hardcoded.
 
-This allows learning order to be computed logically, not manually hardcoded.
+This makes the system scalable and logically consistent.
 
 2️⃣ Dependency-Aware Roadmap (Kahn’s Algorithm)
 
 We implemented topological sorting (Kahn’s Algorithm) to:
 
--Respect prerequisite relationships
+Respect prerequisite relationships
 
--Ensure foundational skills are prioritized
+Prioritize foundational skills
 
--Avoid recommending advanced topics prematurely
+Prevent premature advanced recommendations
 
--This was chosen over manual ordering to make the system scalable.
+Enable scalable roadmap generation
 
-3️⃣ Strict Gap Filtering (Important Tradeoff)
+This ensures roadmap correctness instead of static ordering.
 
-Early version issue:
+3️⃣ Strict Gap Filtering (Key Design Decision)
 
--Even with full score, roadmap recommended Python & Probability.
+Initial Issue:
+Even high-scoring users were being recommended foundational skills.
 
--Root cause:
-  Topological resolver returned full dependency chain without checking mastery.
+Root Cause:
+Topological sorting returned the full dependency chain without checking mastery level.
 
--Fix:
-  We strictly filtered roadmap to include only:
+Fix Implemented:
+Roadmap now strictly includes:
 
-  -Missing skills
+Missing skills
 
-  -Weak skills
+Weak skills
 
--Tradeoff:
-  We sacrificed “aggressive upskilling suggestions”
-  in favor of diagnostic credibility.
+Tradeoff:
+We sacrificed aggressive upskilling suggestions to preserve diagnostic credibility.
 
--We chose correctness over feature density.
+We chose correctness over feature density.
 
 4️⃣ Career-Specific Evaluation
 
-Initial bug:
+Initial Bug:
 All career tracks returned identical questions.
 
 Cause:
-/questions endpoint returned full question set.
+The /questions endpoint returned the full question set.
 
 Fix:
-Filtered questions by career’s required skills.
+Questions filtered based on career-required skills.
 
-Result:
-Each career now evaluates relevant competencies only.
+Now each career path evaluates only relevant competencies.
 
 5️⃣ Domain-Level Abstraction
 
-Instead of only showing flat skill scores, we grouped skills into domains:
+Skills are grouped into structural domains:
 
--Mathematics
+Mathematics
 
--Programming
+Programming
 
--Data Handling
+Data Handling
 
--Machine Learning
+Machine Learning
 
--Systems
+Systems
 
-This helps users understand structural weaknesses, not just isolated gaps.
+This allows users to see domain-level weaknesses rather than isolated scores.
 
 Tradeoff:
-We hardcoded domain mapping in frontend for hackathon speed
-instead of building a dynamic domain API layer.
-
-🧪 Engineering Challenges & Debugging
-⚠ React Radar Crash
-
-Error:
-
-Multiple React versions detected
-
-Fix:
-Aligned chart.js + React versions and rebuilt node_modules.
-
-⚠ Roadmap Recommending Strong Skills
-
-Cause:
-Dependency resolver returned ordered list without skill-level filtering.
-
-Fix:
-Post-processed roadmap using skill evaluation results.
-
-⚠ Career Impact Detection Not Scoped
-
-Issue:
-High-impact gap logic considered global dependencies.
-
-Fix:
-Scoped dependency impact calculation to career-specific required skills.
+Domain mapping was hardcoded in the frontend for hackathon speed instead of implementing a dynamic backend domain API.
 
 🔄 Final User Flow
 
--Select Career Track
+Select Career Track
 
--Complete Wizard-Based Assessment
+Complete Assessment Wizard
 
--System Builds Skill DNA
+Skill Competency Evaluation
 
--Career Alignment Score Calculated
+Career Alignment Score Calculation
 
--Domain Coverage Analyzed
+Domain-Level Coverage Analysis
 
--Dependency-Ordered Roadmap Generated
+Dependency-Ordered Roadmap Generation
 
--Focus-Later Skills Identified
+Focus-Later Skills Identification
 
-⚖ Key Tradeoffs We Made
+⚙️ Tech Stack
+
+Frontend
+
+React
+
+Chart.js (Radar visualization)
+
+Vercel Deployment
+
+Backend
+
+FastAPI (or your backend framework)
+
+JSON-based skill graph modeling
+
+Algorithmic dependency resolution
+
+🧪 Engineering Challenges
+⚠ Multiple React Version Conflict
+
+Error: React radar chart crash
+
+Fix: Aligned chart.js and React versions and rebuilt node_modules
+
+⚠ Roadmap Recommending Strong Skills
+
+Cause: Dependency resolver returned full ordered list
+
+Fix: Post-processed roadmap using evaluation results
+
+⚠ Career Impact Logic Not Scoped
+
+Issue: Dependency impact calculation used global skill graph
+
+Fix: Scoped impact analysis to career-required skills only
+
+⚖️ Key Engineering Tradeoffs
 Decision	Tradeoff
-Rule-based evaluation	Faster build vs ML-based personalization
+Rule-based evaluation	Faster implementation vs ML-based personalization
 JSON skill modeling	Simplicity vs database-backed schema
-Hardcoded domain map	Hackathon speed vs backend abstraction
+Hardcoded domain mapping	Hackathon speed vs backend abstraction
 Strict filtering	Diagnostic clarity vs broader suggestions
 
 We prioritized:
 
--Structural correctness
+Structural correctness
 
--Clear reasoning
+Clear reasoning
 
--Scalability
+Logical scalability
 
--Demonstrable logic
+Demonstrable algorithmic thinking
 
--Over adding complexity.
+Over feature volume.
 
 📈 Future Scope
 
--Adaptive question difficulty
+Adaptive question difficulty
 
--ML-based recommendation weighting
+ML-based weighting of skill importance
 
--GitHub skill inference
+GitHub skill inference
 
--LinkedIn integration
+LinkedIn integration
 
--Industry-calibrated evaluation
+Industry-calibrated benchmarking
 
--Progress tracking over time
+Long-term progress tracking
 
 🎯 What Makes SkillMap Different
 
@@ -210,40 +213,30 @@ SkillMap does not just recommend skills.
 
 It:
 
--Models learning as a structured graph
+Models learning as a structured graph
 
--Diagnoses competency gaps
+Diagnoses competency gaps
 
--Computes learning order logically
+Computes roadmap order algorithmically
 
--Respects career-specific requirements
+Respects career-specific requirements
 
-It demonstrates:
+Emphasizes system design over surface features
 
--System-level thinking > surface-level features.
+This project demonstrates system-level thinking rather than simple feature aggregation.
 
-🏆 Built During Hackathon
+🏆 Hackathon Context
 
-SkillMap evolved from:
+Built during AMUHACKS 5.0 under time constraints.
 
--Flat skill scoring →
--Career-aware evaluation →
--Dependency-aware roadmap →
--Strict diagnostic filtering →
--Structured domain abstraction.
+The system evolved through multiple iterations:
+
+Flat scoring → Career-aware evaluation → Dependency-aware roadmap → Strict diagnostic filtering → Domain abstraction.
 
 Each iteration improved structural integrity.
 
-✨ Final Insight
+✨ Core Insight
 
 Personalization is not about recommending more.
 
-It’s about modeling structure correctly.
-
-
-Live Demo: https://night-shift-amuhacks-5-0.vercel.app
-
-
-SkillMap focuses on:
-
-Diagnosis before prescription.
+It is about modeling structure correctly.
