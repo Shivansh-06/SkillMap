@@ -1,7 +1,6 @@
 🚀 SkillMap
 Structured Skill Gap Diagnosis & Career-Aligned Learning Roadmaps
 
-AMUHACKS 5.0 Hackathon Project
 
 🔗 Live Demo: https://night-shift-amuhacks-5-0.vercel.app
 
